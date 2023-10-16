@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const getInitialTodo = () => {
-  return [];
-};
+const getInitialTodo = () => [];
 
 const initialValue = {
   filterStatus: 'all',
@@ -12,6 +10,7 @@ const initialValue = {
 export const todoSlice = createSlice({
   name: 'todo',
   initialState: initialValue,
+<<<<<<< Updated upstream
   reducers: {
     // sample
     addTodo: state => {
@@ -27,6 +26,9 @@ export const todoSlice = createSlice({
       state.value += 1
     }
   }
+=======
+  reducers: {},
+>>>>>>> Stashed changes
 });
 
 export const { addTodo, updateTodo, deleteTodo, updateFilterStatus } =
