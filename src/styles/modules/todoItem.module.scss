@@ -1,4 +1,4 @@
-@import '../_mixins.scss';
+@import "../_mixins.scss";
 
 .item {
   display: flex;
@@ -57,6 +57,14 @@
     opacity: 0.7;
   }
 }
+.complete__text {
+  word-break: break-all;
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: var(--black-2);
+  text-decoration: line-through;
+  opacity: 0.7;
+}
 .time {
   display: block;
   font-size: 1.2rem;
@@ -72,6 +80,23 @@
 }
 .icon {
   font-size: 2rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  background-color: var(--gray-1);
+  color: var(--black-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: 0.3s ease background-color;
+  &:hover {
+    background-color: var(--gray-2);
+  }
+}
+
+.edit__btn,
+.delete__btn {
+  font-size: 1.2rem;
   padding: 0.5rem;
   border-radius: 4px;
   background-color: var(--gray-1);

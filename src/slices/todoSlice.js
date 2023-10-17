@@ -1,7 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
-import moment from 'moment'
+import moment from 'moment';
+import _ from 'lodash';
 
-const getInitialTodo = () => [{id: 1, title: 'Title', status: 'complete', time: moment(new Date('2023-10-17T05:42:46.660Z')).format('h:mm A, DD/MM/YYYY')}];
+const getInitialTodo = () => [
+  {
+    id: 1,
+    title: 'Title',
+    status: 'incomplete',
+    time: moment(new Date('2023-10-17T05:42:46.660Z')).format(
+      'h:mm A, DD/MM/YYYY'
+    ),
+  },
+];
 const initialValue = {
   filterStatus: 'all',
   todoList: getInitialTodo(),
@@ -17,21 +27,26 @@ export const todoSlice = createSlice({
         id,
         title: action.payload.title,
         status: action.payload.status,
-        time: moment().format('h:mm A, DD/MM/YYYY')
+        time: moment().format('h:mm A, DD/MM/YYYY'),
       };
       state.todoList.push(todo);
     },
     updateTodo: (state, action) => {
+      // eslint-disable-next-line prefer-destructuring
+      const todoList = state.todoList;
+
       const targetObject = _.find(todoList, { id: action.payload.id });
 
+      console.log(targetObject);
       if (targetObject) {
         targetObject.title = action.payload.title;
         targetObject.status = action.payload.status;
-        targetObject.time = action.payload.time;
         state.todoList = todoList;
       }
     },
     deleteTodo: (state, action) => {
+      // eslint-disable-next-line prefer-destructuring
+      const todoList = state.todoList;
       _.remove(todoList, (obj) => obj.id === action.payload.id);
 
       state.todoList = todoList;
