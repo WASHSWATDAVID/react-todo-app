@@ -40,10 +40,12 @@ function AppContent() {
     <motion.div
       className={styles.content__wrapper}
       variants={container}
-      initial="hidden"
-      animate="visible"
+      initial='hidden'
+      animate='visible'
     >
-      Content
+      {sortedTodoList.map((item, index) => (
+        <TodoItem todo={item} key={index}/>
+      ))}
     </motion.div>
   );
 }
