@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import Modal from 'react-modal';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles/modules/modal.module.scss';
@@ -11,7 +10,7 @@ const customStyles = {
     top: '50%',
     left: '50%',
     width: '35%',
-    height: '51%',
+    height: '48%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: '#ecedf6',
     border: 'none',
@@ -27,7 +26,6 @@ function TodoModal({ type, modalIsOpen, setModalIsOpen, todo }) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('a', todo);
     if (type === 'add') {
       setTitle('');
       setStatus('incomplete');
@@ -79,7 +77,7 @@ function TodoModal({ type, modalIsOpen, setModalIsOpen, todo }) {
   return (
     <div>
       {modalIsOpen && (
-        <Modal isOpen style={customStyles} contentLabel="Example Modal">
+        <Modal isOpen style={customStyles} onRequestClose={handleCloseModal}>
           <h1 style={{ display: 'inline-block' }}>
             {type === 'add' ? 'Add' : 'Update'} TODO
           </h1>
@@ -105,7 +103,7 @@ function TodoModal({ type, modalIsOpen, setModalIsOpen, todo }) {
               value={status}
               onChange={handleSelectStatus}
             >
-              <option value="incomplte">Incomplete</option>
+              <option value="incomplete">Incomplete</option>
               <option value="complete">Complete</option>
             </select>
           </form>

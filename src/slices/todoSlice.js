@@ -6,7 +6,7 @@ const getInitialTodo = () => [
   {
     id: 1,
     title: 'Title',
-    status: 'incomplete',
+    status: 'complete',
     time: moment(new Date('2023-10-17T05:42:46.660Z')).format(
       'h:mm A, DD/MM/YYYY'
     ),
@@ -32,12 +32,10 @@ export const todoSlice = createSlice({
       state.todoList.push(todo);
     },
     updateTodo: (state, action) => {
-      // eslint-disable-next-line prefer-destructuring
       const todoList = state.todoList;
 
       const targetObject = _.find(todoList, { id: action.payload.id });
 
-      console.log(targetObject);
       if (targetObject) {
         targetObject.title = action.payload.title;
         targetObject.status = action.payload.status;
@@ -45,14 +43,13 @@ export const todoSlice = createSlice({
       }
     },
     deleteTodo: (state, action) => {
-      // eslint-disable-next-line prefer-destructuring
       const todoList = state.todoList;
       _.remove(todoList, (obj) => obj.id === action.payload.id);
 
       state.todoList = todoList;
     },
     updateFilterStatus: (state, action) => {
-      state.filterStatus = action.payload;
+      state.filterStatus = action.payload.filterStatus;
     },
   },
 });

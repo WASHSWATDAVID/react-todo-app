@@ -7,16 +7,19 @@ import TodoModal from './TodoModal';
 
 function TodoItem({ todo }) {
   const [checked, setChecked] = useState(false);
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    
     if (todo.status === 'incomplete') {
+      console.log(todo)
       setChecked(false);
     } else {
       setChecked(true);
     }
-  }, [todo]);
+  }, [todo, checked]);
 
   const handleCheck = () => {
     const payload = {
