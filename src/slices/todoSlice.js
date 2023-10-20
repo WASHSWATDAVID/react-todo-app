@@ -14,6 +14,20 @@ const getInitialTodo = () => [
 ];
 const initialValue = {
   filterStatus: 'all',
+  filterList: [
+    {label: 'All', value: 'all'},
+    {label: 'Incomplete', value: 'incomplete'},
+    {label: 'Complete', value: 'complete'},
+  ],
+  modalValue: {
+    isOpen: false,
+    type: '',
+    todoData: {
+      id: 0,
+      title: '',
+      status: 'incomplete',
+    }
+  },
   todoList: getInitialTodo(),
 };
 
@@ -51,9 +65,31 @@ export const todoSlice = createSlice({
     updateFilterStatus: (state, action) => {
       state.filterStatus = action.payload.filterStatus;
     },
+    handleModal: (state, action) => {
+      const { type, isOpen, todoData } = action.payload;
+      const id = todoData?.id;
+      const title = todoData?.title;
+      const status = todoData?.status;
+
+      state.modalValue.type = type;
+      state.modalValue.isOpen = isOpen;
+
+      if (isOpen) {
+        if (type === 'add') {
+          state.modalValue.todoData.title = '';
+          state.modalValue.todoData.status = 'incomplete';
+        } else if (type === 'update') {
+          state.modalValue.todoData.id = id;
+          state.modalValue.todoData.title = title;
+          state.modalValue.todoData.status = status;
+        } 
+      } else {
+        console.log("aa")
+      }
+    },
   },
 });
 
-export const { addTodo, updateTodo, deleteTodo, updateFilterStatus } =
+export const { addTodo, updateTodo, deleteTodo, updateFilterStatus, handleModal } =
   todoSlice.actions;
 export default todoSlice.reducer;

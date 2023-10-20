@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styles from '../styles/modules/app.module.scss';
 import TodoItem from './TodoItem';
 import _ from 'lodash';
+import Button from './Button';
 
 const container = {
   hidden: { opacity: 1 },
@@ -15,13 +16,6 @@ const container = {
     },
   },
 };
-const child = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
-  },
-};
 
 function AppContent() {
   const todoList = useSelector((state) => state.todo.todoList);
@@ -30,18 +24,29 @@ function AppContent() {
   const sortedTodoList = [...todoList];
   sortedTodoList.sort((a, b) => new Date(b.time) - new Date(a.time));
 
-  const filteredTodoList = filterStatus !== 'all' ? _.filter(sortedTodoList, { status: filterStatus }) : sortedTodoList;
+  const filteredTodoList =
+    filterStatus !== 'all'
+      ? _.filter(sortedTodoList, { status: filterStatus })
+      : sortedTodoList;
 
   return (
     <motion.div
       className={styles.content__wrapper}
       variants={container}
-      initial="hidden"
-      animate="visible"
+      initial='hidden'
+      animate='visible'
     >
-      {filteredTodoList.map((item, index) => (
-        <TodoItem todo={item} key={index} />
-      ))}
+      {filteredTodoList.length > 0 ? (
+        filteredTodoList.map((item, index) => (
+          <TodoItem todo={item} key={index} />
+        ))
+      ) : (
+        <div
+          className={styles.emptyText}
+        >
+          No todo List
+        </div>
+      )}
     </motion.div>
   );
 }

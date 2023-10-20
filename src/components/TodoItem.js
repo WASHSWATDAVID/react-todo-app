@@ -1,15 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styles from '../styles/modules/todoItem.module.scss';
 import CheckButton from './CheckButton';
-import { deleteTodo, updateTodo } from '../slices/todoSlice';
-import TodoModal from './TodoModal';
+import { deleteTodo, updateTodo, handleModal } from '../slices/todoSlice';
 
 function TodoItem({ todo }) {
   const [checked, setChecked] = useState(false);
-
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const dispatch = useDispatch();
+
+  const handleOpenModal = () => {
+    const payload = {
+      type: 'update',
+      isOpen: true,
+      todoData: todo
+    };
+    dispatch(handleModal(payload));
+  };
 
   useEffect(() => {
     
@@ -52,7 +58,7 @@ function TodoItem({ todo }) {
           <button
             type="button"
             className={styles.edit__btn}
-            onClick={() => setModalIsOpen(true)}
+            onClick={handleOpenModal}
           >
             Edit
           </button>
@@ -65,12 +71,6 @@ function TodoItem({ todo }) {
           </button>
         </div>
       </div>
-      <TodoModal
-        type="update"
-        modalIsOpen={modalIsOpen}
-        setModalIsOpen={setModalIsOpen}
-        todo={todo}
-      />
     </>
   );
 }

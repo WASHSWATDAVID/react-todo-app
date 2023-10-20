@@ -2,20 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles/modules/app.module.scss';
 import Button, { SelectButton } from './Button';
-import TodoModal from './TodoModal';
-import { updateFilterStatus } from '../slices/todoSlice';
+import { updateFilterStatus, handleModal } from '../slices/todoSlice';
 import _ from 'lodash';
 
 function AppHeader() {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const todoList = useSelector((state) => state.todo.todoList);
-  const filterStatus = useSelector((state) => state.todo.filterStatus);
+  const filterList = useSelector((state) => state.todo.filterList);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log(filterStatus);
-  }, [filterStatus]);
 
   const handleSelectFilter = (e) => {
     const payload = {
@@ -24,22 +16,28 @@ function AppHeader() {
     dispatch(updateFilterStatus(payload));
   };
 
+  const handleOpenModal = () => {
+    const payload = {
+      type: 'add',
+      isOpen: true,
+    };
+    dispatch(handleModal(payload));
+  };
+
   return (
     <>
       <div className={styles.appHeader}>
-        <Button onClick={() => setModalIsOpen(true)}>Add Task</Button>
+        <Button onClick={handleOpenModal}>Add Task</Button>
         <SelectButton onChange={handleSelectFilter}>
-          <option value='all'>All</option>
-          <option value='incomplete'>Incomplete</option>
-          <option value='complete'>Complete</option>
+          {filterList.map((filter, index) => {
+            return (
+              <option key={index} value={filter.value}>
+                {filter.label}
+              </option>
+            );
+          })}
         </SelectButton>
       </div>
-      <TodoModal
-        type='add'
-        modalIsOpen={modalIsOpen}
-        setModalIsOpen={setModalIsOpen}
-        todo={null}
-      />
     </>
   );
 }

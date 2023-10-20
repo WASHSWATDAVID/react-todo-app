@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from '../styles/modules/modal.module.scss';
 import Button from './Button';
-import { addTodo, updateTodo } from '../slices/todoSlice';
+import { addTodo, updateTodo, handleModal } from '../slices/todoSlice';
 
 const customStyles = {
   content: {
@@ -20,101 +20,118 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-function TodoModal({ type, modalIsOpen, setModalIsOpen, todo }) {
-  const [title, setTitle] = useState('');
-  const [status, setStatus] = useState('incomplte');
+function TodoModal() {
+  const {
+    type,
+    isOpen,
+    todoData: { id, title, status },
+  } = useSelector((state) => state.todo.modalValue);
+  const filterList = useSelector((state) => state.todo.filterList);
   const dispatch = useDispatch();
 
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalStatus, setModalStatus] = useState('incomplete');
+
   useEffect(() => {
-    if (type === 'add') {
-      setTitle('');
-      setStatus('incomplete');
-    } else if (type === 'update' && todo) {
-      setTitle(todo.title);
-      setStatus(todo.status);
+    console.log('effect');
+    if (type === 'update') {
+      setModalTitle(title);
+      setModalStatus(status);
     }
-  }, [type, todo, modalIsOpen]);
-  // modalIsOpen을 의존성에 넣어주지 않으면 Add Task 버튼 클릭 후 Edit 다시 클릭해도 title, status 변경되지 않음
+  }, [type, id, title, status]);
 
   const handleSelectStatus = (e) => {
-    setStatus(e.target.value);
+    setModalStatus(e.target.value);
     console.log(e.target.value);
   };
 
   const handleInputTitle = (e) => {
-    setTitle(e.target.value);
+    setModalTitle(e.target.value);
     console.log(e.target.value);
   };
 
   const handleTask = () => {
+    console.log();
     if (type === 'add') {
       const payload = {
-        title,
-        status,
+        title: modalTitle,
+        status: modalStatus,
       };
       dispatch(addTodo(payload));
     } else {
       const payload = {
-        title,
-        status,
-        id: todo.id,
+        title: modalTitle,
+        status: modalStatus,
+        id: id,
       };
       dispatch(updateTodo(payload));
     }
-    setModalIsOpen(false);
+    const payload = {
+      isOpen: false,
+    };
+    dispatch(handleModal(payload));
 
     // 초기화
-    setTitle('');
-    setStatus('incomplete');
+    setModalTitle('');
+    setModalStatus('incomplete');
   };
 
   const handleCloseModal = () => {
-    setModalIsOpen(false);
-    setTitle('');
-    setStatus('incomplete');
+    const payload = {
+      type: 'close',
+      isOpen: false,
+    };
+    dispatch(handleModal(payload));
   };
 
   return (
     <div>
-      {modalIsOpen && (
+      {isOpen && (
         <Modal isOpen style={customStyles} onRequestClose={handleCloseModal}>
           <h1 style={{ display: 'inline-block' }}>
             {type === 'add' ? 'Add' : 'Update'} TODO
           </h1>
           <form className={styles.form__content}>
-            <label htmlFor="inputField" className={styles.label__text}>
+            <label htmlFor='inputField' className={styles.label__text}>
               Title
             </label>
             <input
-              type="text"
-              id="inputField"
-              name="inputField"
+              type='text'
+              id='inputField'
+              name='inputField'
               className={styles.input__field}
-              value={title}
+              value={modalTitle}
               onChange={handleInputTitle}
             />
-            <label htmlFor="selectField" className={styles.label__text}>
+            <label htmlFor='selectField' className={styles.label__text}>
               Status
             </label>
             <select
-              id="selectField"
-              name="selectField"
+              id='selectField'
+              name='selectField'
               className={styles.select__field}
-              value={status}
+              value={modalStatus}
               onChange={handleSelectStatus}
             >
-              <option value="incomplete">Incomplete</option>
-              <option value="complete">Complete</option>
+              {filterList.map((filter, index) => {
+                if (filter.value !== 'all') {
+                  return (
+                    <option key={index} value={filter.value}>
+                      {filter.label}
+                    </option>
+                  );
+                }
+              })}
             </select>
           </form>
           <Button
-            variant="primary"
+            variant='primary'
             style={{ marginRight: '15px' }}
             onClick={handleTask}
           >
             {type === 'add' ? 'Add' : 'Update'} Task
           </Button>
-          <Button variant="secondary" onClick={handleCloseModal}>
+          <Button variant='secondary' onClick={handleCloseModal}>
             Cancel
           </Button>
         </Modal>
