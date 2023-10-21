@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
+import styles from '../styles/modules/modal.module.scss';
 
 function TodoModal({ modalOpen, closeModal }) {
   function openModal() {
@@ -9,6 +10,7 @@ function TodoModal({ modalOpen, closeModal }) {
   return (
     <div>
       <Modal
+          className={styles.container}
         isOpen={modalOpen}
         onRequestClose={() => closeModal()}
         contentLabel="Example Modal"
