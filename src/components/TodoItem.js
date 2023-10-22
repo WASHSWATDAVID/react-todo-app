@@ -7,13 +7,13 @@ import { AiTwotoneDelete, AiTwotoneEdit } from "react-icons/ai";
 import TodoModal from "./TodoModal";
 
 function TodoItem({ todo }) {
+  const dispatch = useDispatch();
+
   const [stateModal, setStateModal] = useState(false);
 
   function closeModal() {
     setStateModal(false);
   }
-
-  const dispatch = useDispatch();
 
   function handleCheck() {
     dispatch(updateFilterStatus(todo));
@@ -31,8 +31,8 @@ function TodoItem({ todo }) {
           handleCheck={handleCheck}
         />
         <div>
-          <text className={styles.todoText}>{todo.title}</text>
-          <text className={styles.time}>{todo.time}</text>
+          <p className={styles.todoText}>{todo.title}</p>
+          <p className={styles.time}>{todo.time}</p>
         </div>
       </div>
       <div className={styles.todoActions}>

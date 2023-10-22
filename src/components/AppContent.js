@@ -46,8 +46,8 @@ function AppContent() {
       {filteredTodoList.length == 0 ? (
         <div className={styles.emptyText}>No Todos</div>
       ) : (
-        filteredTodoList.map(function(todo) {
-          return <TodoItem todo={todo} />;
+        filteredTodoList.map(function (todo) {
+          return <TodoItem key={todo.id} todo={todo} />;
         })
       )}
     </motion.div>

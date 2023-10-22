@@ -22,6 +22,10 @@ function AppHeader() {
           Add Task
         </Button>
         <TodoModal
+          todo={{
+            title: "",
+            status: "incomplete",
+          }}
           modalType="add"
           modalOpen={stateModal}
           closeModal={closeModal}
@@ -29,7 +33,6 @@ function AppHeader() {
         <SelectButton
           defaultValue={filterStatus}
           onChange={(e) => {
-            console.log(e.target);
             dispatch(changeFilter(e.target.value));
           }}
         >

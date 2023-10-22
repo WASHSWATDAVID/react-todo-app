@@ -5,7 +5,6 @@ export const filterSlice = createSlice({
   initialState: { filterStatus: "all" },
   reducers: {
     changeFilter(state, action) {
-      console.log(action.payload);
       state.filterStatus = action.payload;
     },
   },
