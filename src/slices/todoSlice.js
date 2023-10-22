@@ -1,4 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
+import moment from 'moment';
+import 'moment/locale/ko';
 
 const getInitialTodo = () => {
   return [];
@@ -15,9 +17,9 @@ export const todoSlice = createSlice({
   reducers: {
     addTodo(state, action) {
       const todo = {
+        ...action.payload,
         id: state.todoList.length + 1,
-        title: action.payload.title,
-        status: action.payload.status,
+        time : moment().format('YYYY-MM-DD HH:mm:ss')
       };
       state.todoList = [...state.todoList, todo];
       console.log(state.todoList);

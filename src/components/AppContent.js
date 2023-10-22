@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import styles from '../styles/modules/app.module.scss';
 import TodoItem from './TodoItem';
+import Button from "./Button";
 
 const container = {
   hidden: { opacity: 1 },
@@ -28,6 +29,7 @@ function AppContent() {
 
   const sortedTodoList = [...todoList];
   sortedTodoList.sort((a, b) => new Date(b.time) - new Date(a.time));
+  console.log("sortedTodoList",sortedTodoList)
 
   const filteredTodoList = sortedTodoList.filter((item) => {
     if (filterStatus === 'all') {
@@ -43,7 +45,12 @@ function AppContent() {
       initial="hidden"
       animate="visible"
     >
-      Content
+      {sortedTodoList.length==0 ?
+        <div className={styles.emptyText}>No Todos</div> :
+        sortedTodoList.map(function(todo){
+        <TodoItem todo={todo}/>
+      })}
+
     </motion.div>
   );
 }
