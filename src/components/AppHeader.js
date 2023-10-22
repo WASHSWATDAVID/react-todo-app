@@ -21,7 +21,6 @@ function AppHeader() {
           Add Task
         </Button>
         <TodoModal
-          todo=""
           modalType="add"
           modalOpen={stateModal}
           closeModal={closeModal}

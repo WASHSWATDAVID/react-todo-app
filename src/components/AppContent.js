@@ -30,7 +30,6 @@ function AppContent() {
 
   const sortedTodoList = [...todoList];
   sortedTodoList.sort((a, b) => new Date(b.time) - new Date(a.time));
-  console.log("sortedTodoList", sortedTodoList);
 
   const filteredTodoList = sortedTodoList.filter((item) => {
     if (filterStatus === "all") {

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux/es/exports";
 import { addTodo, updateTodo } from "./../slices/todoSlice";
 
 function TodoModal({ modalType, todo, modalOpen, closeModal }) {
+  console.log("modalType");
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -14,10 +15,11 @@ function TodoModal({ modalType, todo, modalOpen, closeModal }) {
   });
 
   useEffect(() => {
-    if (modalType === "edit") {
+    if (modalType === "edit" && todo.title) {
       // 수정 모달일 경우 todo 데이터로 초기화
       setFormData(todo);
-    } else {
+    } else if (modalType === "add") {
+      console.log(modalType);
       // 새로운 항목 추가 모달일 경우 초기 데이터 설정
       setFormData({
         title: "",
@@ -25,8 +27,6 @@ function TodoModal({ modalType, todo, modalOpen, closeModal }) {
       });
     }
   }, [modalType, todo]);
-
-  console.log(formData);
 
   const handleSubmit = (e) => {
     console.log(formData);

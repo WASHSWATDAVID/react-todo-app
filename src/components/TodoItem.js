@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux/es/exports";
 import styles from "../styles/modules/todoItem.module.scss";
 import CheckButton from "./CheckButton";
-import { updateFilterStatus } from "../slices/todoSlice";
+import { updateFilterStatus, deleteTodo } from "../slices/todoSlice";
 import { AiTwotoneDelete, AiTwotoneEdit } from "react-icons/ai";
 import TodoModal from "./TodoModal";
 
@@ -16,16 +16,18 @@ function TodoItem({ todo }) {
   const dispatch = useDispatch();
 
   function handleCheck() {
-    dispatch(updateFilterStatus(todo.id));
+    dispatch(updateFilterStatus(todo));
   }
 
-  console.log(todo.status);
+  function handleDelete() {
+    dispatch(deleteTodo(todo));
+  }
 
   return (
     <div className={styles.item}>
       <div className={styles.todoDetails}>
         <CheckButton
-          checked={todo.status == "completed"}
+          checked={todo.status === "completed"}
           handleCheck={handleCheck}
         />
         <div>
@@ -34,7 +36,7 @@ function TodoItem({ todo }) {
         </div>
       </div>
       <div className={styles.todoActions}>
-        <AiTwotoneDelete className={styles.icon} />
+        <AiTwotoneDelete className={styles.icon} onClick={handleDelete} />
         <AiTwotoneEdit
           className={styles.icon}
           onClick={() => setStateModal(true)}

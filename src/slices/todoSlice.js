@@ -1,11 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 import "moment/locale/ko";
-import lodash from "lodash";
 
-const getInitialTodo = () => {
-  return [];
-};
+const getInitialTodo = () => [];
 
 const initialValue = {
   filterStatus: "all",
@@ -27,7 +24,9 @@ export const todoSlice = createSlice({
     },
     updateFilterStatus(state, action) {
       const todoList = [...state.todoList]; // 복제해서 새로운 배열 생성
-      const changeTodoIndex = _.findIndex(todoList, { id: action.payload });
+      const changeTodoIndex = todoList.findIndex(
+        (todo) => todo.id === action.payload.id
+      );
       if (changeTodoIndex !== -1) {
         todoList[changeTodoIndex].status =
           todoList[changeTodoIndex].status === "incomplete"
@@ -38,20 +37,26 @@ export const todoSlice = createSlice({
     },
     updateTodo(state, action) {
       const todoList = [...state.todoList]; // 복제해서 새로운 배열 생성
-      const changeTodoIndex = _.findIndex(todoList, { id: action.payload.id });
+      const changeTodoIndex = todoList.findIndex(
+        (todo) => todo.id === action.payload.id
+      );
+      console.log(changeTodoIndex);
       if (changeTodoIndex !== -1) {
         todoList[changeTodoIndex] = {
-          id: action.payload.id,
-          title: action.payload.title,
-          status: action.payload.status,
+          ...action.payload, // 다른 프로퍼티들을 그대로 복사
           time: moment().format("YYYY-MM-DD HH:mm:ss"),
         };
       }
       state.todoList = todoList;
     },
     deleteTodo(state, action) {
-
-    }
+      const todoList = [...state.todoList]; // 복제해서 새로운 배열 생성
+      const changeTodoIndex = todoList.findIndex(
+        (todo) => todo.id === action.payload.id
+      );
+      todoList.splice(changeTodoIndex, 1);
+      state.todoList = todoList;
+    },
   },
 });
 
