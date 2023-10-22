@@ -6,6 +6,7 @@ import PageTitle from './components/PageTitle';
 import styles from './styles/modules/app.module.scss';
 
 function App() {
+
   return (
     <>
       <div className="container">
@@ -15,6 +16,7 @@ function App() {
           <AppContent />
         </div>
       </div>
+
       <Toaster
         position="bottom-right"
         toastOptions={{
@@ -27,4 +29,6 @@ function App() {
   );
 }
 
+
 export default App;
+
