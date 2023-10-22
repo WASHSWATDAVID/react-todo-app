@@ -1,9 +1,10 @@
-import { AnimatePresence, motion } from 'framer-motion';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import styles from '../styles/modules/app.module.scss';
-import TodoItem from './TodoItem';
+import { AnimatePresence, motion } from "framer-motion";
+import React from "react";
+import { useSelector } from "react-redux";
+import styles from "../styles/modules/app.module.scss";
+import TodoItem from "./TodoItem";
 import Button from "./Button";
+import TodoModal from "./TodoModal";
 
 const container = {
   hidden: { opacity: 1 },
@@ -29,10 +30,10 @@ function AppContent() {
 
   const sortedTodoList = [...todoList];
   sortedTodoList.sort((a, b) => new Date(b.time) - new Date(a.time));
-  console.log("sortedTodoList",sortedTodoList)
+  console.log("sortedTodoList", sortedTodoList);
 
   const filteredTodoList = sortedTodoList.filter((item) => {
-    if (filterStatus === 'all') {
+    if (filterStatus === "all") {
       return true;
     }
     return item.status === filterStatus;
@@ -45,12 +46,13 @@ function AppContent() {
       initial="hidden"
       animate="visible"
     >
-      {sortedTodoList.length==0 ?
-        <div className={styles.emptyText}>No Todos</div> :
-        sortedTodoList.map(function(todo){
-        <TodoItem todo={todo}/>
-      })}
-
+      {sortedTodoList.length == 0 ? (
+        <div className={styles.emptyText}>No Todos</div>
+      ) : (
+        sortedTodoList.map(function (todo) {
+          return <TodoItem todo={todo} />;
+        })
+      )}
     </motion.div>
   );
 }

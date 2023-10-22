@@ -1,27 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import styles from "../styles/modules/modal.module.scss";
 import Button from "./Button";
 import { useDispatch } from "react-redux/es/exports";
-import { addTodo } from "./../slices/todoSlice";
+import { addTodo, updateTodo } from "./../slices/todoSlice";
 
-function TodoModal({ modalOpen, closeModal }) {
+function TodoModal({ modalType, todo, modalOpen, closeModal }) {
   const dispatch = useDispatch();
-  const initForm = {
+
+  const [formData, setFormData] = useState({
     title: "",
     status: "incomplete",
-  };
+  });
 
-  const [formData, setFormData] = useState(initForm);
+  useEffect(() => {
+    if (modalType === "edit") {
+      // 수정 모달일 경우 todo 데이터로 초기화
+      setFormData(todo);
+    } else {
+      // 새로운 항목 추가 모달일 경우 초기 데이터 설정
+      setFormData({
+        title: "",
+        status: "incomplete",
+      });
+    }
+  }, [modalType, todo]);
+
+  console.log(formData);
 
   const handleSubmit = (e) => {
+    console.log(formData);
     e.preventDefault();
-    // 폼 데이터를 사용하세요
-    console.log("Form Data:", formData);
-    dispatch(addTodo(formData));
-    setFormData(initForm);
+    if (modalType === "edit") {
+      dispatch(updateTodo(formData));
+    } else {
+      dispatch(addTodo(formData));
+    }
     closeModal();
-    // 여기에서 데이터를 처리하거나 API로 보낼 수 있습니다.
   };
 
   return (
@@ -33,7 +48,7 @@ function TodoModal({ modalOpen, closeModal }) {
       contentLabel="Example Modal"
     >
       <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
-        <h1 className={styles.formTitle}>Add ToDo</h1>
+        <h1 className={styles.formTitle}>{modalType} ToDo</h1>
         <label>
           Title
           <input
@@ -41,6 +56,7 @@ function TodoModal({ modalOpen, closeModal }) {
             onChange={(e) =>
               setFormData({ ...formData, title: e.target.value })
             }
+            value={formData.title}
           />
         </label>
         <label>
@@ -52,6 +68,7 @@ function TodoModal({ modalOpen, closeModal }) {
               console.log(e.target);
               setFormData({ ...formData, status: e.target.value });
             }}
+            defaultValue={formData.status}
           >
             <option value="incomplete">Incomplete</option>
             <option value="completed">Completed</option>

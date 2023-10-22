@@ -20,7 +20,12 @@ function AppHeader() {
         <Button variant="primary" onClick={() => setStateModal(true)}>
           Add Task
         </Button>
-        <TodoModal modalOpen={stateModal} closeModal={closeModal} />
+        <TodoModal
+          todo=""
+          modalType="add"
+          modalOpen={stateModal}
+          closeModal={closeModal}
+        />
         <SelectButton defaultValue="all">
           <option value="all">All</option>
           <option value="incomplete">Incomplete</option>
