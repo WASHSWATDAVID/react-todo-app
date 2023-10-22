@@ -7,17 +7,20 @@ import { addTodo } from "./../slices/todoSlice";
 
 function TodoModal({ modalOpen, closeModal }) {
   const dispatch = useDispatch();
-
-  const [formData, setFormData] = useState({
+  const initForm = {
     title: "",
     status: "incomplete",
-  });
+  };
+
+  const [formData, setFormData] = useState(initForm);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // 폼 데이터를 사용하세요
     console.log("Form Data:", formData);
     dispatch(addTodo(formData));
+    setFormData(initForm);
+    closeModal();
     // 여기에서 데이터를 처리하거나 API로 보낼 수 있습니다.
   };
 
