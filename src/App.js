@@ -1,12 +1,11 @@
-import React from 'react';
-import { Toaster } from 'react-hot-toast';
-import AppContent from './components/AppContent';
-import AppHeader from './components/AppHeader';
-import PageTitle from './components/PageTitle';
-import styles from './styles/modules/app.module.scss';
+import React from "react";
+import { Toaster } from "react-hot-toast";
+import AppContent from "./components/AppContent";
+import AppHeader from "./components/AppHeader";
+import PageTitle from "./components/PageTitle";
+import styles from "./styles/modules/app.module.scss";
 
 function App() {
-
   return (
     <>
       <div className="container">
@@ -21,7 +20,7 @@ function App() {
         position="bottom-right"
         toastOptions={{
           style: {
-            fontSize: '1.4rem',
+            fontSize: "1.4rem",
           },
         }}
       />
@@ -29,6 +28,4 @@ function App() {
   );
 }
 
-
 export default App;
-

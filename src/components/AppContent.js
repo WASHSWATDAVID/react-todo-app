@@ -3,8 +3,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styles from "../styles/modules/app.module.scss";
 import TodoItem from "./TodoItem";
-import Button from "./Button";
-import TodoModal from "./TodoModal";
 
 const container = {
   hidden: { opacity: 1 },
@@ -26,7 +24,7 @@ const child = {
 
 function AppContent() {
   const todoList = useSelector((state) => state.todo.todoList);
-  const filterStatus = useSelector((state) => state.todo.filterStatus);
+  const filterStatus = useSelector((state) => state.filter.filterStatus);
 
   const sortedTodoList = [...todoList];
   sortedTodoList.sort((a, b) => new Date(b.time) - new Date(a.time));
@@ -45,10 +43,10 @@ function AppContent() {
       initial="hidden"
       animate="visible"
     >
-      {sortedTodoList.length == 0 ? (
+      {filteredTodoList.length == 0 ? (
         <div className={styles.emptyText}>No Todos</div>
       ) : (
-        sortedTodoList.map(function (todo) {
+        filteredTodoList.map(function(todo) {
           return <TodoItem todo={todo} />;
         })
       )}
