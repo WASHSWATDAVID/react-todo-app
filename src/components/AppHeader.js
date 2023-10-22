@@ -3,16 +3,21 @@ import styles from "../styles/modules/app.module.scss";
 import Button, { SelectButton } from "./Button";
 import TodoModal from "./TodoModal";
 import { useSelector, useDispatch } from "react-redux";
-import { changeFilter } from "./../slices/filterStatus";
+import { changeFilter } from "../slices/filterSlice";
+import { todoStatus, modalState } from "../slices/todoAction";
 
 function AppHeader() {
+  // action을 발생시키기 위한 useDispatch를 사용할 수 있음
   const dispatch = useDispatch();
+  // 모달 상태 관리
   const [stateModal, setStateModal] = useState(false);
 
+  // 모달 닫는 함수
   function closeModal() {
     setStateModal(false);
   }
 
+  // 선택한 filter 가져오기
   const filterStatus = useSelector((state) => state.filter.filterStatus);
 
   return (
@@ -24,9 +29,9 @@ function AppHeader() {
         <TodoModal
           todo={{
             title: "",
-            status: "incomplete",
+            status: todoStatus.INCOMPLETE
           }}
-          modalType="add"
+          modalType={modalState.ADD}
           modalOpen={stateModal}
           closeModal={closeModal}
         />
@@ -36,9 +41,9 @@ function AppHeader() {
             dispatch(changeFilter(e.target.value));
           }}
         >
-          <option value="all">All</option>
-          <option value="incomplete">Incomplete</option>
-          <option value="completed">Completed</option>
+          <option value={todoStatus.ALL}>All</option>
+          <option value={todoStatus.INCOMPLETE}>Incomplete</option>
+          <option value={todoStatus.COMPLETED}>Completed</option>
         </SelectButton>
       </div>
     </div>

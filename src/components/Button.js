@@ -4,17 +4,17 @@ import { getClasses } from "../utils/getClasses";
 
 const buttonTypes = {
   primary: "primary",
-  secondary: "secondary",
+  secondary: "secondary"
 };
 
-function Button({ type, variant = "primary", children, ...rest }) {
+function Button({ type, variant = buttonTypes.primary, children, ...rest }) {
   return (
     <button
       type={type === "submit" ? "submit" : "button"}
       // className == 스타일 적용
       className={getClasses([
         styles.button,
-        styles[`button--${buttonTypes[variant]}`],
+        styles[`button--${buttonTypes[variant]}`]
       ])}
       {...rest}
     >
@@ -35,6 +35,5 @@ function SelectButton({ children, id, ...rest }) {
   );
 }
 
-//공부하기
 export { SelectButton };
 export default Button;

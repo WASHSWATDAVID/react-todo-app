@@ -5,20 +5,25 @@ import CheckButton from "./CheckButton";
 import { updateFilterStatus, deleteTodo } from "../slices/todoSlice";
 import { AiTwotoneDelete, AiTwotoneEdit } from "react-icons/ai";
 import TodoModal from "./TodoModal";
+import { todoStatus, modalState } from "../slices/todoAction";
 
 function TodoItem({ todo }) {
   const dispatch = useDispatch();
 
+  // 모달 상태 변수
   const [stateModal, setStateModal] = useState(false);
 
+  // 모달 닫는 함수
   function closeModal() {
     setStateModal(false);
   }
 
+  // 투두 아이템 체크 버튼 클릭시 실행
   function handleCheck() {
     dispatch(updateFilterStatus(todo));
   }
 
+  //
   function handleDelete() {
     dispatch(deleteTodo(todo));
   }
@@ -27,7 +32,7 @@ function TodoItem({ todo }) {
     <div className={styles.item}>
       <div className={styles.todoDetails}>
         <CheckButton
-          checked={todo.status === "completed"}
+          checked={todo.status === todoStatus.COMPLETED}
           handleCheck={handleCheck}
         />
         <div>
@@ -44,7 +49,7 @@ function TodoItem({ todo }) {
       </div>
       <TodoModal
         todo={todo}
-        modalType="edit"
+        modalType={modalState.EDIT}
         modalOpen={stateModal}
         closeModal={closeModal}
       />

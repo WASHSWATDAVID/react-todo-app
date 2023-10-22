@@ -4,17 +4,21 @@ import styles from "../styles/modules/modal.module.scss";
 import Button from "./Button";
 import { useDispatch } from "react-redux/es/exports";
 import { addTodo, updateTodo } from "./../slices/todoSlice";
+import { todoStatus, modalState } from "../slices/todoAction";
 
 function TodoModal({ modalType, todo, modalOpen, closeModal }) {
   const dispatch = useDispatch();
 
+  // form data
   const [formData, setFormData] = useState(todo);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (modalType === "edit") {
+    // edit 모달일 경우 updateTodo
+    if (modalType === modalState.EDIT) {
       dispatch(updateTodo(formData));
     } else {
+      // add 모달일 경우 addTodo
       dispatch(addTodo(formData));
     }
     closeModal();
@@ -28,7 +32,6 @@ function TodoModal({ modalType, todo, modalOpen, closeModal }) {
         isOpen={modalOpen}
         onRequestClose={() => closeModal()}
         shouldCloseOnOverlayClick={true}
-        contentLabel="Example Modal"
       >
         <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
           <h1 className={styles.formTitle}>{modalType} ToDo</h1>
@@ -52,8 +55,8 @@ function TodoModal({ modalType, todo, modalOpen, closeModal }) {
               }}
               defaultValue={formData.status}
             >
-              <option value="incomplete">Incomplete</option>
-              <option value="completed">Completed</option>
+              <option value={todoStatus.INCOMPLETE}>Incomplete</option>
+              <option value={todoStatus.COMPLETED}>Completed</option>
             </select>
           </label>
           <Button variant="primary" type="submit">
