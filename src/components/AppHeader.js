@@ -13,9 +13,7 @@ function AppHeader() {
   const [stateModal, setStateModal] = useState(false);
 
   // 모달 닫는 함수
-  function closeModal() {
-    setStateModal(false);
-  }
+  const showModal = () => setStateModal((prevState) => !prevState);
 
   // 선택한 filter 가져오기
   const filterStatus = useSelector((state) => state.filter.filterStatus);
@@ -23,7 +21,7 @@ function AppHeader() {
   return (
     <div>
       <div className={styles.appHeader}>
-        <Button variant="primary" onClick={() => setStateModal(true)}>
+        <Button variant="primary" onClick={() => showModal()}>
           Add Task
         </Button>
         <TodoModal
@@ -33,7 +31,7 @@ function AppHeader() {
           }}
           modalType={modalState.ADD}
           modalOpen={stateModal}
-          closeModal={closeModal}
+          showModal={showModal}
         />
         <SelectButton
           defaultValue={filterStatus}

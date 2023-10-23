@@ -6,13 +6,14 @@ import { useDispatch } from "react-redux/es/exports";
 import { addTodo, updateTodo } from "./../slices/todoSlice";
 import { todoStatus, modalState } from "../slices/todoAction";
 
-function TodoModal({ modalType, todo, modalOpen, closeModal }) {
+function TodoModal({ modalType, todo, modalOpen, showModal }) {
   const dispatch = useDispatch();
 
   // form data
   const [formData, setFormData] = useState(todo);
 
   const handleSubmit = (e) => {
+    // 특정 이벤트를 막는 용도
     e.preventDefault();
     // edit 모달일 경우 updateTodo
     if (modalType === modalState.EDIT) {
@@ -20,8 +21,12 @@ function TodoModal({ modalType, todo, modalOpen, closeModal }) {
     } else {
       // add 모달일 경우 addTodo
       dispatch(addTodo(formData));
+      setFormData({
+        title: "",
+        status: todoStatus.INCOMPLETE
+      });
     }
-    closeModal();
+    showModal();
   };
 
   return (
@@ -30,8 +35,7 @@ function TodoModal({ modalType, todo, modalOpen, closeModal }) {
         appElement={document.getElementById("root")}
         className={styles.container}
         isOpen={modalOpen}
-        onRequestClose={() => closeModal()}
-        shouldCloseOnOverlayClick={true}
+        onRequestClose={() => showModal()}
       >
         <form className={styles.form} onSubmit={(e) => handleSubmit(e)}>
           <h1 className={styles.formTitle}>{modalType} ToDo</h1>
@@ -65,7 +69,7 @@ function TodoModal({ modalType, todo, modalOpen, closeModal }) {
           <Button
             variant="secondary"
             style={{ marginLeft: "10px" }}
-            onClick={() => closeModal()}
+            onClick={() => showModal()}
           >
             Cancle
           </Button>

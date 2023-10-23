@@ -18,6 +18,7 @@ export const todoSlice = createSlice({
         id: state.todoList.length + 1,
         time: moment().format("YYYY-MM-DD HH:mm:ss")
       };
+      // push해도 되는데 왜 새로운 객체?
       state.todoList = [...state.todoList, todo];
       console.log(state.todoList);
     },

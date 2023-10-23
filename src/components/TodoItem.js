@@ -14,9 +14,7 @@ function TodoItem({ todo }) {
   const [stateModal, setStateModal] = useState(false);
 
   // 모달 닫는 함수
-  function closeModal() {
-    setStateModal(false);
-  }
+  const showModal = () => setStateModal((prevState) => !prevState);
 
   // 투두 아이템 체크 버튼 클릭시 실행
   function handleCheck() {
@@ -42,16 +40,13 @@ function TodoItem({ todo }) {
       </div>
       <div className={styles.todoActions}>
         <AiTwotoneDelete className={styles.icon} onClick={handleDelete} />
-        <AiTwotoneEdit
-          className={styles.icon}
-          onClick={() => setStateModal(true)}
-        />
+        <AiTwotoneEdit className={styles.icon} onClick={() => showModal()} />
       </div>
       <TodoModal
         todo={todo}
         modalType={modalState.EDIT}
         modalOpen={stateModal}
-        closeModal={closeModal}
+        showModal={showModal}
       />
     </div>
   );
